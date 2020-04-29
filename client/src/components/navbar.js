@@ -21,13 +21,17 @@ export default class Navbar extends React.Component {
     render(){
         const unAuthenticate = (
             <div className="navbar">
-                <Link to="/">Home</Link>
-                <Link to="/Login">Login</Link>
-                <Link to="/Register">Register</Link>
+                <div className="logo">JavascriptGrader</div>
+                <span className="menu">
+                    <Link to="/">Home</Link>
+                    <Link to="/Login">Login</Link>
+                    <Link to="/Register">Register</Link>
+                </span>
             </div>
         );
         const Authenticate = (
             <div className="navbar">
+                <div className="logo">JavascriptGrader</div>
                 <Link to="/">Home</Link>
                 <Link to="/profile">Profile</Link>
                 <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
