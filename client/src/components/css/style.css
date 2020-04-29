@@ -1,0 +1,23 @@
+* {
+    margin: 0px;
+}
+
+.container {
+    padding: 20px;
+}
+
+.navbar {
+    background-color: black;
+    border: black 1px solid;
+    padding: 10px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.navbar a{
+    color: wheat;
+    padding: 7px;
+    text-decoration: none;
+}
