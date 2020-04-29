@@ -1,5 +1,6 @@
 import React from 'react';
-import { login } from './js/userFunctions'
+import { Redirect } from 'react-router-dom';
+import { login } from './js/userFunctions';
 
 export default class Login extends React.Component {
     constructor() {
@@ -28,7 +29,10 @@ export default class Login extends React.Component {
             }
 
             login(user).then(res => {
-                console.log('Login !!!');
+                console.log(res);
+                this.setState({
+                    email:""
+                })
             })
         }
     }
@@ -36,6 +40,7 @@ export default class Login extends React.Component {
     render(){
         return (
             <div className="welcome">
+                {localStorage.usertoken ? <Redirect to="/profile" /> : ""}
                 <form onSubmit={this.onSubmit}>
                     <div className="email">
                         Email:

@@ -1,5 +1,6 @@
 import React from 'react';
-import {register} from './js/userFunctions'
+import { Redirect } from 'react-router-dom';
+import { register } from './js/userFunctions';
 
 export default class Register extends React.Component {
     constructor() {
