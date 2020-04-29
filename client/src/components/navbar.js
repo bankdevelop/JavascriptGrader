@@ -32,9 +32,11 @@ export default class Navbar extends React.Component {
         const Authenticate = (
             <div className="navbar">
                 <div className="logo">JavascriptGrader</div>
-                <Link to="/">Home</Link>
-                <Link to="/profile">Profile</Link>
-                <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
+                <span className="menu">
+                    <Link to="/">Home</Link>
+                    <Link to="/profile">Profile</Link>
+                    <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
+                </span>
             </div>
         );
         return (

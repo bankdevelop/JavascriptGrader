@@ -17,10 +17,11 @@ app.use(
 )
 
 var user = require('./routes/user');
-app.use('/users', user);
-/*
-app.use('/course', user);
+var course = require('./routes/course');
 
+app.use('/users', user);
+app.use('/course', course);
+/*
 app.use('/category', user);
 
 app.use('/exerise', user);

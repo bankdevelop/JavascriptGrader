@@ -29,7 +29,6 @@ export default class Login extends React.Component {
             }
 
             login(user).then(res => {
-                console.log(res);
                 this.setState({
                     email:""
                 })

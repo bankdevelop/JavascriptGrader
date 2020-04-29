@@ -7,6 +7,7 @@ import Welcome from './components/welcome';
 import Login from './components/login';
 import Register from './components/register';
 import Profile from './components/profile';
+import Course from './components/course'
 
 class App extends React.Component {
   render(){
@@ -19,6 +20,7 @@ class App extends React.Component {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
+            <Route exact path="/course" component={Course} />
           </div>
         </div>
       </BrowserRouter>

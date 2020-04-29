@@ -16,7 +16,7 @@ class Profile extends Component {
   componentDidMount() {
     if(localStorage.usertoken){
       const token = localStorage.usertoken;
-      const decoded = jwt_decode(token)
+      const decoded = jwt_decode(token);
       this.setState({
         first_name: decoded.first_name,
         last_name: decoded.last_name,
@@ -29,11 +29,11 @@ class Profile extends Component {
     return (
       <div className="container">
         {!localStorage.usertoken ? <Redirect to="/login" /> : ""}
-        <div className="jumbotron mt-5">
-          <div className="col-sm-8 mx-auto">
+        <div className="profile">
+          <div className="title-profie">
             <h1 className="text-center">PROFILE</h1>
           </div>
-          <table className="table col-md-6 mx-auto">
+          <table className="table-pofile">
             <tbody>
               <tr>
                 <td>Fist Name</td>
@@ -49,6 +49,9 @@ class Profile extends Component {
               </tr>
             </tbody>
           </table>
+          <div style={{padding:10}}>
+            <a href="/course">ViewCourse</a>
+          </div>
         </div>
       </div>
     )

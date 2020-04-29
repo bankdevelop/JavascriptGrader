@@ -43,4 +43,8 @@
     .navbar {
         display: block;
     }
+
+    .container {
+        padding: 10px;
+    }
 }
