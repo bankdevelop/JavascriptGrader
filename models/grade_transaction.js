@@ -14,6 +14,9 @@ module.exports = db.sequelize.define(
     },
     student_id: {
         type: Sequelize.INTEGER
+    },
+    result: {
+        type: Sequelize.INTEGER
     }
   },
   {

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const Enrolled = require('../models/enrolled');
 const Category = require('../models/category');
 const Exercise = require('../models/exercise');
+const Grade_transaction = require('../models/grade_transaction');
 router.use(cors());
 
 process.env.SECRET_KEY = 'secret';
@@ -54,29 +55,19 @@ router.post('/viewExercise/:id', (req, res) => {
   }
 })
 
-router.post('/viewCourseCategory/:id', (req, res) => {
+router.post('/findTestResult/:id', (req, res) => {
   var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
 
   if(decoded.id){
-    Enrolled.findOne({
+    Grade_transaction.findOne({
       where: {
         student_id: decoded.id,
-        course_id: req.params.id
-      }
+        exercise_id: req.params.id
+      },
+      order: [ [ 'createdAt', 'DESC' ]]
     })
-    .then( async (enrolls) => {
-          await Category.findAll({
-              where:{
-                course_id:enrolls.dataValues.course_id
-              }
-            })
-            .then(course => {
-              var data = []
-              for( category_course of course ){
-                data.push(category_course.dataValues);
-              }
-              res.json(data);
-            })
+    .then( async (gradeTransaction) => {
+        res.json(gradeTransaction.dataValues);
     })
     .catch(err => {
       res.send('error: ' + err);

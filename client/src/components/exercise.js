@@ -8,6 +8,7 @@ class Exercise extends Component {
         super();
         this.state = {
             data:[],
+            test_result:[],
             index:0
         }
         this.changeIndex = this.changeIndex.bind(this);
@@ -16,10 +17,25 @@ class Exercise extends Component {
     async componentDidMount(){
         if(localStorage.usertoken){
             await axios.post('/exercise/viewExercise/'+this.props.match.params.id, {usertoken:localStorage.usertoken})
-                         .then(response => {
+                         .then(async response => {
                              this.setState({
                                  data:response.data
                              })
+
+                             var testResultData = [];
+                             await response.data.map(async (data) => {
+                                axios.post('/exercise/findTestResult/'+data.id, {usertoken:localStorage.usertoken})
+                                     .then(resTestResult => {
+                                        if(typeof resTestResult.data !== "string"){
+                                            testResultData.push(resTestResult.data);
+                                        }else{
+                                            testResultData.push("");
+                                        }
+                                     })
+                             })
+                             this.setState({
+                                 test_result:testResultData
+                             });
                          });
         }
     }
@@ -60,6 +76,9 @@ class Exercise extends Component {
                                         {(this.state.data.length!==0 && this.state.index<this.state.data.length)?
                                                                         this.state.data[this.state.index].title:"Exercise doesn't exist"}
                                     </div>
+                                    <span className="exercise_test_result">
+                                        {this.state.test_result.length!==0?"Result | ["+this.state.test_result[this.state.index]+"]":""}
+                                    </span>
                                     <div className="exercise_field_desc">
                                         {(this.state.data.length!==0 && this.state.index<this.state.data.length)?
                                                                         this.state.data[this.state.index].desc:""}
@@ -85,15 +104,3 @@ class Exercise extends Component {
 }
 
 export default Exercise;
-
-/*
-
-                {this.state.data.map(
-                    (data) => (
-                        <div className="exercise-item" key={"exercise_id_"+data.id}>
-                            {data.title} | {data.desc}
-                        </div>
-                    )
-                )}
-
-*/

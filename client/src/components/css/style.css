@@ -68,6 +68,14 @@
 .exercise_field_title {
     font-weight: bold;
     text-align: center;
+    width: 100%;
+}
+
+.exercise_test_result {
+    color: white;
+    padding: 2px;
+    margin-left: 10px;
+    border-radius: 5px;
 }
 
 .exercise_field_desc {
