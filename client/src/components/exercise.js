@@ -7,8 +7,10 @@ class Exercise extends Component {
     constructor(){
         super();
         this.state = {
-            data:[]
+            data:[],
+            index:0
         }
+        this.changeIndex = this.changeIndex.bind(this);
     }
 
     async componentDidMount(){
@@ -19,20 +21,63 @@ class Exercise extends Component {
                                  data:response.data
                              })
                          });
-         }
+        }
     }
+
+    changeIndex(id){
+        var arr_index = this.state.data.indexOf(id);
+        if(arr_index!==-1){
+            this.setState({
+                index:arr_index
+            });
+        }
+    }
+
     render() {
       return (
         <div id="exercise">
             {!localStorage.usertoken ? <Redirect to="/login" /> : ""}
             <div className="category-view">
-                {this.state.data.map(
-                    (data) => (
-                        <div className="exercise-item" key={"exercise_id_"+data.id}>
-                            {data.title} | {data.desc}
-                        </div>
-                    )
-                )}
+                <table style={{width:"100%", textAlign:"center"}}>
+                <colgroup>
+                            <col span="1" style={{width:"20%"}} />
+                            <col span="1" style={{width:"80%"}} />
+                            </colgroup>
+                    <tbody>
+                        <tr style={{verticalAlign:"top"}}>
+                            <td>
+                                {this.state.data.map(
+                                    (data) => (
+                                        <button onClick={() => this.changeIndex(data)} className="exercise-menu" key={"exercise_id_menu_"+data.id}>
+                                            {data.title}
+                                        </button>
+                                    )
+                                )}
+                            </td>
+                            <td>
+                                <div className="exercise_field">
+                                    <div className="exercise_field_title">
+                                        {(this.state.data.length!==0 && this.state.index<this.state.data.length)?
+                                                                        this.state.data[this.state.index].title:"Exercise doesn't exist"}
+                                    </div>
+                                    <div className="exercise_field_desc">
+                                        {(this.state.data.length!==0 && this.state.index<this.state.data.length)?
+                                                                        this.state.data[this.state.index].desc:""}
+                                    </div>
+                                    <hr/>
+                                    <div className="exercise_field_desc">
+                                        {/* For Starter_code Feature
+                                        {(this.state.data.length!==0 && this.state.index<this.state.data.length)
+                                        ?(this.state.data[this.state.index].starter_code!==null
+                                            ?this.state.data[this.state.index].starter_code:""):""} */}
+                                        <p id="exercise_field_input" className="exercise_field_input" contentEditable="true"></p>
+                                        <input className="exercise_field_button" type="submit" value="submit code" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
       )
@@ -40,3 +85,15 @@ class Exercise extends Component {
 }
 
 export default Exercise;
+
+/*
+
+                {this.state.data.map(
+                    (data) => (
+                        <div className="exercise-item" key={"exercise_id_"+data.id}>
+                            {data.title} | {data.desc}
+                        </div>
+                    )
+                )}
+
+*/
