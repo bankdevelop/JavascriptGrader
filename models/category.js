@@ -12,6 +12,9 @@ module.exports = db.sequelize.define(
     course_id: {
         type: Sequelize.INTEGER
     },
+    title: {
+      type: Sequelize.STRING
+    },
     desc: {
         type: Sequelize.STRING
     },

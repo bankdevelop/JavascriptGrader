@@ -1,5 +1,6 @@
 * {
     margin: 0px;
+    word-break: break-all;
 }
 
 .container {
@@ -37,6 +38,19 @@
 .menu {
     width: 100%;
     text-align: right;
+}
+
+.course-title {
+    font-size: 24px;
+    font-family: cursive;
+}
+
+.course-item {
+    padding: 10px;
+    margin: 7px;
+    border: 2px blanchedalmond solid;
+    border-radius: 10px;
+    background-color: rgb(247, 244, 241);
 }
 
 @media (max-width:450px){

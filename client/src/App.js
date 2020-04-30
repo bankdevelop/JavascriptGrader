@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './components/css/style.css';
 
 import Navbar from './components/navbar';
@@ -7,7 +7,8 @@ import Welcome from './components/welcome';
 import Login from './components/login';
 import Register from './components/register';
 import Profile from './components/profile';
-import Course from './components/course'
+import Course, {CourseView} from './components/course';
+import Error from './components/Error';
 
 class App extends React.Component {
   render(){
@@ -16,11 +17,17 @@ class App extends React.Component {
         <div className="App">
           <Navbar/>
           <div className="container">
-            <Route exact path="/" component={Welcome} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/course" component={Course} />
+            <Switch>
+              <Route exact path="/" component={Welcome} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/course" component={Course} />
+              <Route path="/404">
+                <Error/>
+              </Route>
+              <Route exact path="/course/:id" component={(props) => <CourseView {...props} />} />
+            </Switch>
           </div>
         </div>
       </BrowserRouter>

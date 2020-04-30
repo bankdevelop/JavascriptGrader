@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const Course = require('../models/course');
 const Enrolled = require('../models/enrolled');
+const Category = require('../models/category');
 router.use(cors());
 
 process.env.SECRET_KEY = 'secret';
@@ -64,25 +65,34 @@ router.post('/viewCourse', (req, res) => {
   }
 })
 
-router.get('/profile', (req, res) => {
-    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
+router.post('/viewCourseCategory/:id', (req, res) => {
+  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
 
-    User.findOne({
+  if(decoded.id){
+    Enrolled.findOne({
       where: {
-        id: decoded.id
+        student_id: decoded.id,
+        course_id: req.params.id
       }
     })
-    .then(user => {
-      console.log(user);
-      if (user) {
-        res.json(user);
-      } else {
-        res.send('User does not exist');
-      }
+    .then( async (enrolls) => {
+          await Category.findAll({
+              where:{
+                course_id:enrolls.dataValues.course_id
+              }
+            })
+            .then(course => {
+              var data = []
+              for( category_course of course ){
+                data.push(category_course.dataValues);
+              }
+              res.json(data);
+            })
     })
     .catch(err => {
       res.send('error: ' + err);
     });
+  }
 })
 
 module.exports = router;
