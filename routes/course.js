@@ -10,28 +10,6 @@ router.use(cors());
 
 process.env.SECRET_KEY = 'secret';
 
-router.post('/addCourse', (req, res) => {
-  var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
-
-  if(decoded.id || decoded.rank === 1){
-    const courseData = {
-      name: req.body.name,
-      desc: req.body.desc,
-      create_by: decoded.id,
-      update_by: decoded.id,
-      status:1
-    }
-
-    Course.create(courseData)
-    .then(user => {
-      res.json({ error: courseData.name + ' | Create!' });
-    })
-    .catch(err => {
-      res.send('error: ' + err);
-    })
-  }
-})
-
 router.post('/viewCourse', (req, res) => {
   var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
 
@@ -47,7 +25,8 @@ router.post('/viewCourse', (req, res) => {
         for( enroll of enrolls ) {
           await Course.findOne({
             where:{
-              id:enroll.dataValues.course_id
+              id:enroll.dataValues.course_id,
+              status:1
             }
           })
           .then(course => {
@@ -78,7 +57,8 @@ router.post('/viewCourseCategory/:id', (req, res) => {
     .then( async (enrolls) => {
           await Category.findAll({
               where:{
-                course_id:enrolls.dataValues.course_id
+                course_id:enrolls.dataValues.course_id,
+                status:1
               }
             })
             .then(course => {
@@ -92,6 +72,28 @@ router.post('/viewCourseCategory/:id', (req, res) => {
     .catch(err => {
       res.send('error: ' + err);
     });
+  }
+})
+
+router.post('/addCourse', (req, res) => {
+  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
+
+  if(decoded.id || decoded.rank === 1){
+    const courseData = {
+      name: req.body.name,
+      desc: req.body.desc,
+      create_by: decoded.id,
+      update_by: decoded.id,
+      status:1
+    }
+
+    Course.create(courseData)
+    .then(user => {
+      res.json({ error: courseData.name + ' | Create!' });
+    })
+    .catch(err => {
+      res.send('error: ' + err);
+    })
   }
 })
 

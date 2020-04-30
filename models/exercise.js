@@ -21,6 +21,9 @@ module.exports = db.sequelize.define(
     desc: {
         type: Sequelize.STRING
     },
+    starter_code: {
+        type: Sequelize.STRING
+    },
     test_case: {
         type: Sequelize.STRING
     },

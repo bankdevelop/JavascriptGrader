@@ -9,6 +9,7 @@ import Register from './components/register';
 import Profile from './components/profile';
 import Course, {CourseView} from './components/course';
 import Error from './components/Error';
+import Exercise from './components/exercise';
 
 class App extends React.Component {
   render(){
@@ -23,10 +24,11 @@ class App extends React.Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/course" component={Course} />
+              <Route exact path="/course/:id" component={(props) => <CourseView {...props} />} />
+              <Route exact path="/course/category/:id" component={(props) => <Exercise {...props} />} />
               <Route path="/404">
                 <Error/>
               </Route>
-              <Route exact path="/course/:id" component={(props) => <CourseView {...props} />} />
             </Switch>
           </div>
         </div>

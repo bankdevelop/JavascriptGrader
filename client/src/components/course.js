@@ -84,6 +84,7 @@ export class CourseView extends Component {
         <div id="category">
             {!localStorage.usertoken ? <Redirect to="/login" /> : ""}
             <div className="category-view">
+                {this.state.data.length===0?"Not have any exercise":""}
                 {this.state.data.map(data => (
                     <div className="category-item" key={"category"+data.id}>
                         {data.title} | {data.desc}
