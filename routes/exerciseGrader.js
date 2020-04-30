@@ -30,7 +30,7 @@ router.post('/viewExercise/:id', (req, res) => {
             if(enrolled) {
                 await Exercise.findAll({
                         where:{
-                            course_id:enrolled.dataValues.course_id,
+                            category_id:req.params.id,
                             status:1
                         }
                     })

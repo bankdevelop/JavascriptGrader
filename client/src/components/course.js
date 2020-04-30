@@ -87,7 +87,7 @@ export class CourseView extends Component {
                 {this.state.data.length===0?"Not have any exercise":""}
                 {this.state.data.map(data => (
                     <div className="category-item" key={"category"+data.id}>
-                        {data.title} | {data.desc}
+                        <a href={"/course/category/"+data.id}>{data.title}</a> | {data.desc}
                     </div>
                 ))}
             </div>

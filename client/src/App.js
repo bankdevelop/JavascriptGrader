@@ -26,7 +26,7 @@ class App extends React.Component {
               <Route exact path="/course" component={Course} />
               <Route exact path="/course/:id" component={(props) => <CourseView {...props} />} />
               <Route exact path="/course/category/:id" component={(props) => <Exercise {...props} />} />
-              <Route path="/404">
+              <Route>
                 <Error/>
               </Route>
             </Switch>
