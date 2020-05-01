@@ -9,9 +9,11 @@ class Exercise extends Component {
         this.state = {
             data:[],
             test_result:[],
-            index:0
+            index:0,
+            test_case:""
         }
         this.changeIndex = this.changeIndex.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     async componentDidMount(){
@@ -20,7 +22,7 @@ class Exercise extends Component {
                          .then(async response => {
                              this.setState({
                                  data:response.data
-                             })
+                             });
 
                              var testResultData = [];
                              await response.data.map(async (data) => {
@@ -46,6 +48,23 @@ class Exercise extends Component {
             this.setState({
                 index:arr_index
             });
+        }
+    }
+
+    async onSubmit(e){
+        e.preventDefault();
+        var raw_code = document.getElementById('exercise_field_input').innerHTML;
+        if(raw_code!==""){
+            await axios.post('/exercise/runTestCase/', {usertoken:localStorage.usertoken,
+                                                        raw_code:raw_code,
+                                                        id:this.state.data[this.state.index].course_id, 
+                                                        exercise_id:this.state.data[this.state.index].id})
+                         .then(async response => {
+                             this.setState({
+                                 test_case:response.data
+                             });
+                             console.log(this.state.test_case);
+                         });
         }
     }
 
@@ -77,7 +96,7 @@ class Exercise extends Component {
                                                                         this.state.data[this.state.index].title:"Exercise doesn't exist"}
                                     </div>
                                     <span className="exercise_test_result">
-                                        {this.state.test_result.length!==0?"Result | ["+this.state.test_result[this.state.index]+"]":""}
+                                        {this.state.test_result.length!==0?(this.state.test_result[this.state.index]!==""?"Result | ["+this.state.test_result[this.state.index].result+"]":""):""}
                                     </span>
                                     <div className="exercise_field_desc">
                                         {(this.state.data.length!==0 && this.state.index<this.state.data.length)?
@@ -89,8 +108,10 @@ class Exercise extends Component {
                                         {(this.state.data.length!==0 && this.state.index<this.state.data.length)
                                         ?(this.state.data[this.state.index].starter_code!==null
                                             ?this.state.data[this.state.index].starter_code:""):""} */}
-                                        <p id="exercise_field_input" className="exercise_field_input" contentEditable="true"></p>
-                                        <input className="exercise_field_button" type="submit" value="submit code" />
+                                        <form onSubmit={this.onSubmit}>
+                                            <p id="exercise_field_input" className="exercise_field_input" contentEditable="true"></p>
+                                            <input className="exercise_field_button" type="submit" value="submit code" />
+                                        </form>
                                     </div>
                                 </div>
                             </td>

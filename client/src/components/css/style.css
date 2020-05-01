@@ -57,6 +57,7 @@
     background-color: white;
     border: 1px black solid;
     border-radius: 5px;
+    width: 100%;
 }
 
 .exercise_field {
@@ -72,7 +73,7 @@
 }
 
 .exercise_test_result {
-    color: white;
+    color: black;
     padding: 2px;
     margin-left: 10px;
     border-radius: 5px;

@@ -16,7 +16,10 @@ module.exports = db.sequelize.define(
         type: Sequelize.INTEGER
     },
     result: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
+    },
+    code: {
+        type: Sequelize.STRING
     }
   },
   {
