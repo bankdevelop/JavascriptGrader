@@ -62,8 +62,8 @@ module.exports = function code_checker_output(raw_code, test_case, function_name
                 }
             }
             //Passed case
-            if(SuspectCase) testResult+="S";
-            else if(FailedCase) testResult+="-";
+            if(FailedCase) testResult+="-";
+            else if(SuspectCase) testResult+="S";
             else testResult+="P";
 
             SuspectCase = false;
