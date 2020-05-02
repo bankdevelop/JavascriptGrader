@@ -20,6 +20,9 @@ module.exports = db.sequelize.define(
     },
     code: {
         type: Sequelize.STRING
+    },
+    error_message: {
+        type: Sequelize.STRING
     }
   },
   {
