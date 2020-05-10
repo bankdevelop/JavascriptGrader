@@ -1,0 +1,27 @@
+#admin-control {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.admin-left-menu {
+    padding: 10px;
+    background-color: bisque;
+    margin: 10px;
+}
+
+.admin-left-menu a{
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.admin-left-menu a:hover{
+    color: darkblue;
+}
+
+.hidden {
+    display: none;
+}

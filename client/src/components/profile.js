@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 class Profile extends Component {
@@ -9,6 +9,7 @@ class Profile extends Component {
       first_name: '',
       last_name: '',
       email: '',
+      status: "0",
       errors: {}
     }
   }
@@ -20,8 +21,9 @@ class Profile extends Component {
       this.setState({
         first_name: decoded.first_name,
         last_name: decoded.last_name,
-        email: decoded.email
-      })
+        email: decoded.email,
+        status: decoded.rank
+      });
     }
   }
 
@@ -50,7 +52,8 @@ class Profile extends Component {
             </tbody>
           </table>
           <div style={{padding:10}}>
-            <a href="/course">ViewCourse</a>
+            <a href="/course">ViewCourse</a> <br/>
+            {this.state.status==="1"?<Link to="/admin">Admin Page</Link>:""}
           </div>
         </div>
       </div>
