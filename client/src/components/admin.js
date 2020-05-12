@@ -128,7 +128,6 @@ class AdminCourse extends Component {
         this.setState({
             isEdit:this.state.isEdit?false:true
         });
-        console.log('fsdsfd');
     }
 
     render() {
