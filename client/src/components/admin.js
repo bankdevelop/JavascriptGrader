@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import axios from 'axios';
-import './css/admin.css'
+import './css/admin.scss'
 
 class AdminPage extends Component {
     render() {
@@ -87,6 +87,7 @@ class AdminCourse extends Component {
 
         this.handleAddCourse = this.handleAddCourse.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
 
     async componentDidMount(){
@@ -123,12 +124,24 @@ class AdminCourse extends Component {
         }
     }
 
+    handleEdit(){
+        this.setState({
+            isEdit:this.state.isEdit?false:true
+        });
+        console.log('fsdsfd');
+    }
+
     render() {
         return (
             <div className="admin-course">
-                <div className={/*this.state.isEdit?*/"admin-add-course"/*:"admin-add-course hidden"*/}>
-                    add course
+                <div className={this.state.isEdit?"admin-add-course":"admin-add-course hidden"}>
+                    <span className="create-new-course">Create new course</span>
                     <AdminAddCourseForm handleChange={this.handleChange} />
+                </div>
+                <div className="admin-button">
+                    {(!this.state.isEdit)? 
+                    <input className="create-new-course-button" onClick={this.handleEdit} type="submit" value="Add new" />
+                    :<input className="close-new-course-button" onClick={this.handleEdit} type="submit" value="Close tab" />}
                 </div>
                 <div className="admin-list-course">
                     {this.state.data.map((values) => {

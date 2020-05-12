@@ -6,6 +6,39 @@
     flex-wrap: wrap;
 }
 
+.create-new-course{
+    font-weight: bold;
+    color: darkblue;
+}
+
+.create-new-course-button{
+    background-color: darkseagreen;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border: darkgreen 1px solid;
+}
+
+.create-new-course-button:hover{
+    background-color: forestgreen;
+}
+
+.close-new-course-button{
+    @extend .create-new-course-button;
+    background-color: rgb(255, 145, 145);
+    border: red 1px solid;
+}
+
+.close-new-course-button:hover{
+    background-color: rgb(255, 111, 111);
+}
+
+.admin-course {
+    width: 80%;
+}
+
 .admin-add-course{
     padding: 10px;
     margin: 10px;
