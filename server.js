@@ -19,10 +19,12 @@ app.use(
 var user = require('./routes/user');
 var course = require('./routes/course');
 var exercise = require('./routes/exerciseGrader');
+var admin = require('./routes/admin');
 
 app.use('/users', user);
 app.use('/course', course);
 app.use('/exercise', exercise);
+app.use('/admin', admin);
 /*
 app.use('/exerise', user);
 

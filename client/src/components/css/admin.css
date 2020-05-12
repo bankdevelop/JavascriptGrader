@@ -6,22 +6,40 @@
     flex-wrap: wrap;
 }
 
-.admin-left-menu {
+.admin-add-course{
     padding: 10px;
-    background-color: bisque;
     margin: 10px;
+    border: black 1px solid;
 }
 
-.admin-left-menu a{
+.left-menu-item {
+    padding: 10px;
+}
+
+.left-menu-item a{
     padding: 5px;
     text-decoration: none;
+    background-color: floralwhite;
     color: black;
 }
 
-.admin-left-menu a:hover{
+.left-menu-item a:hover{
     color: darkblue;
 }
 
 .hidden {
     display: none;
+}
+
+.course-list-item{
+    padding: 10px;
+    background-color: rgb(250, 248, 242);
+}
+
+.course-list-item:hover{
+    background-color: cornsilk;
+}
+
+.course-list-item span{
+    margin: 5px;
 }
