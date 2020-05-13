@@ -37,6 +37,36 @@ class AdminLeftMenu extends Component {
 }
 
 class CourseItem extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            editCourse:false
+        }
+
+        this.handleEditCourse = this.handleEditCourse.bind(this);
+        this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
+    }
+
+    handleEditCourse(){
+        this.setState({
+            editCourse:this.state.editCourse?false:true
+        });
+    }
+
+    async handleDeleteCourse(){
+        let msg = 'Are you sure? Delete "'+this.props.name+'" course\nCategory and Exercise under this course will be delete too!';
+        let sureDelete = window.confirm(msg);
+        if(sureDelete){/* can use body in delete request
+            if(localStorage.usertoken){
+                await axios.delete('/admin/course', {usertoken:localStorage.usertoken, course_id:this.props.id})
+                            .then(response => {
+                                console.log(response);
+                            });
+            }*/
+        }
+    }
+
     render() {
         const {name, desc, status} = this.props;
         return (
@@ -52,8 +82,8 @@ class CourseItem extends Component {
                             :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>}
                 </td>
                 <td style={{textAlign:"right",paddingRight:"20px"}}>
-                    <input type="submit" value="Edit" />
-                    <input type="submit" value="Delete" />
+                    <input onClick={this.handleEditCourse} type="submit" value="Edit" />
+                    <input onClick={this.handleDeleteCourse} type="submit" value="Delete" />
                 </td>
             </tr>
         );
@@ -107,18 +137,20 @@ class AdminCourse extends Component {
     }
 
     componentDidUpdate(){
-        this.getAllCourse();
+        this.getAllCourse(); //Need to fix this because when use handleChange working. It unnecessary request getAllCourse || it not good design
     }
     
     async getAllCourse(){
         if(localStorage.usertoken){
             await axios.post('/admin/viewAllCourse', {usertoken:localStorage.usertoken})
-                         .then(response => {
-                             this.setState({
-                                 data:response.data
-                             });
-                         });
-         }
+                        .then(response => {
+                            if(!array_equal(this.state.data,response.data)){
+                                this.setState({
+                                    data:response.data
+                                });
+                            }
+                        });
+        }
     }
 
     handleChange(event){
@@ -136,11 +168,24 @@ class AdminCourse extends Component {
         }
     }
 
-    handleAddCourse(event){
+    async handleAddCourse(event){
         event.preventDefault();
         if(this.state.isEdit){
             if(this.state.name !== "" && this.state.desc !== ""){
-                ;//axios post create course
+                if(localStorage.usertoken){
+                    await axios.post('/admin/course', {usertoken:localStorage.usertoken, name:this.state.name, 
+                                                       desc:this.state.desc, status:this.state.status})
+                                .then(response => {
+                                    console.log(response);
+                                    this.setState({
+                                        name:"",
+                                        desc:"",
+                                        status:false
+                                    });
+                                    document.getElementById('name').value="";
+                                    document.getElementById('desc').value="";
+                                });
+                }
             }
         }
     }
@@ -177,7 +222,8 @@ class AdminCourse extends Component {
                                     <CourseItem key={values.id+"apre_56e"} //random key : apre_56e has nothing mean
                                                 name={values.name}
                                                 desc={values.desc}
-                                                status={values.status} />
+                                                status={values.status}
+                                                id={values.id} />
                                 );
                             })}
                         </tbody>
@@ -189,3 +235,7 @@ class AdminCourse extends Component {
 }
 
 export default AdminPage;
+
+function array_equal(a, b){
+    return JSON.stringify(a) === JSON.stringify(b);
+}

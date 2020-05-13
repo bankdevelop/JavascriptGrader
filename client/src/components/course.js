@@ -77,7 +77,7 @@ export class CourseView extends Component {
                                  data:response.data
                              })
                          });
-         }
+        }
     }
     render() {
       return (

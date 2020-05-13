@@ -75,26 +75,4 @@ router.post('/viewCourseCategory/:id', (req, res) => {
   }
 })
 
-router.post('/addCourse', (req, res) => {
-  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
-
-  if(decoded.id || decoded.rank === 1){
-    const courseData = {
-      name: req.body.name,
-      desc: req.body.desc,
-      create_by: decoded.id,
-      update_by: decoded.id,
-      status:1
-    }
-
-    Course.create(courseData)
-    .then(user => {
-      res.json({ error: courseData.name + ' | Create!' });
-    })
-    .catch(err => {
-      res.send('error: ' + err);
-    })
-  }
-})
-
 module.exports = router;
