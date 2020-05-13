@@ -96,12 +96,21 @@ class AdminCourse extends Component {
             status: false
         }
 
+        this.getAllCourse = this.getAllCourse.bind(this);
         this.handleAddCourse = this.handleAddCourse.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
     }
 
-    async componentDidMount(){
+    componentDidMount(){
+        this.getAllCourse();
+    }
+
+    componentDidUpdate(){
+        this.getAllCourse();
+    }
+    
+    async getAllCourse(){
         if(localStorage.usertoken){
             await axios.post('/admin/viewAllCourse', {usertoken:localStorage.usertoken})
                          .then(response => {
@@ -111,7 +120,7 @@ class AdminCourse extends Component {
                          });
          }
     }
-    
+
     handleChange(event){
         const name = event.target.name;
         const value = event.target.value;
@@ -165,7 +174,7 @@ class AdminCourse extends Component {
                         <tbody style={{border:"1px rgb(226, 226, 226) solid"}}>
                             {this.state.data.map((values) => {
                                 return (
-                                    <CourseItem key={values.id+"apre_56e"} 
+                                    <CourseItem key={values.id+"apre_56e"} //random key : apre_56e has nothing mean
                                                 name={values.name}
                                                 desc={values.desc}
                                                 status={values.status} />
