@@ -41,17 +41,41 @@ class CourseItem extends Component {
         super(props);
 
         this.state = {
-            editCourse: false
+            editCourse: false,
+            name: this.props.name,
+            desc: this.props.desc,
+            status: this.props.status
         }
 
         this.handleEditCourse = this.handleEditCourse.bind(this);
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
 
     handleEditCourse(){
         this.setState({
             editCourse:this.state.editCourse?false:true
         });
+    }
+
+    handleChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+
+        if(name!=="status"){
+            this.setState({
+                [name]:value
+            });
+        }else{
+            this.setState({
+                status:event.target.checked
+            });
+        }
+    }
+
+    handleUpdate(){
+        this.handleEditCourse();
     }
 
     async handleDeleteCourse(){
@@ -72,17 +96,18 @@ class CourseItem extends Component {
         return (
             <tr className="course-list-item">
                 <td>
-                    <span><strong>Name</strong> : {name}</span>
+                    <span><strong>Name</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="name" value={name}/>:name}</span>
                 </td>
                 <td>
-                    <span><strong>Description</strong> : {desc}</span>
+                    <span><strong>Description</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="desc" value={desc}/>:desc}</span>
                 </td>
                 <td>
-                    {status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
-                            :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>}
+                    {this.state.editCourse?<input onChange={this.handleChange} type="checkbox" name="status" checked={this.state.status}/>:
+                        (status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
+                                :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>)}
                 </td>
                 <td style={{textAlign:"right",paddingRight:"20px"}}>
-                    <input onClick={this.handleEditCourse} type="submit" value="Edit" />
+                    {this.state.editCourse?<input onClick={this.handleUpdate} type="submit" value="Save" />:<input onClick={this.handleEditCourse} type="submit" value="Edit" />}
                     <input onClick={this.handleDeleteCourse} type="submit" value="Delete" />
                 </td>
             </tr>
