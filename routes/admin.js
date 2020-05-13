@@ -4,6 +4,8 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const Course = require('../models/course');
+const Category = require('../models/category');
+const Exercise = require('../models/exercise');
 const User = require('../models/user');
 router.use(cors());
 
@@ -127,7 +129,8 @@ router.delete('/course/:usertoken/:course_id', (req, res) => {
           }
         })
         .then(courses => {
-          res.json(courses);
+          Category.destroy({where: {course_id: req.params.course_id}});
+          Exercise.destroy({where: {course_id: req.params.course_id}});
         });
       } else {
         res.json({error:'You not have permission'});
