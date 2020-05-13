@@ -23,13 +23,13 @@ class AdminLeftMenu extends Component {
         return (
             <div className="admin-left-menu">
                 <div className="left-menu-item">
-                    <Link to="/admin/addCourse">Add Course</Link>
+                    <Link to="/admin">Course Management</Link>
                 </div>
                 <div className="left-menu-item">
-                    <Link to="/admin/addCategory">Add Category</Link>
+                    <Link to="/admin/user">User Management</Link>
                 </div>
                 <div className="left-menu-item">
-                    <Link to="/admin/addExercise">Add Exercise</Link>
+                    <Link to="/admin/blog">Blog Management</Link>
                 </div>
             </div>
         );
