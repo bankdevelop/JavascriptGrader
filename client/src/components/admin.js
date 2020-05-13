@@ -41,7 +41,7 @@ class CourseItem extends Component {
         super(props);
 
         this.state = {
-            editCourse:false
+            editCourse: false
         }
 
         this.handleEditCourse = this.handleEditCourse.bind(this);
@@ -57,13 +57,13 @@ class CourseItem extends Component {
     async handleDeleteCourse(){
         let msg = 'Are you sure? Delete "'+this.props.name+'" course\nCategory and Exercise under this course will be delete too!';
         let sureDelete = window.confirm(msg);
-        if(sureDelete){/* can use body in delete request
+        if(sureDelete){
             if(localStorage.usertoken){
-                await axios.delete('/admin/course', {usertoken:localStorage.usertoken, course_id:this.props.id})
+                await axios.delete('/admin/course/'+localStorage.usertoken+"/"+this.props.id)
                             .then(response => {
-                                console.log(response);
+                                this.props.getAllCourse();
                             });
-            }*/
+            }
         }
     }
 
@@ -176,7 +176,6 @@ class AdminCourse extends Component {
                     await axios.post('/admin/course', {usertoken:localStorage.usertoken, name:this.state.name, 
                                                        desc:this.state.desc, status:this.state.status})
                                 .then(response => {
-                                    console.log(response);
                                     this.setState({
                                         name:"",
                                         desc:"",
@@ -201,7 +200,8 @@ class AdminCourse extends Component {
             <div className="admin-course">
                 <div className={this.state.isEdit?"admin-add-course":"admin-add-course hidden"}>
                     <span className="create-new-course">Create new course</span>
-                    <AdminAddCourseForm handleSubmit={this.handleAddCourse} handleChange={this.handleChange} />
+                    <AdminAddCourseForm handleSubmit={this.handleAddCourse} 
+                                        handleChange={this.handleChange} />
                 </div>
                 <div className="admin-button">
                     {(!this.state.isEdit)? 
@@ -223,7 +223,8 @@ class AdminCourse extends Component {
                                                 name={values.name}
                                                 desc={values.desc}
                                                 status={values.status}
-                                                id={values.id} />
+                                                id={values.id}
+                                                getAllCourse={this.getAllCourse} />
                                 );
                             })}
                         </tbody>

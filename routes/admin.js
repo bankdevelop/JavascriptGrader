@@ -76,7 +76,7 @@ router.post('/course', (req, res) => {
 });
 
 router.put('/course', (req, res) => {
-  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
+  var decoded = jwt.verify(req.params.usertoken, process.env.SECRET_KEY);
 
   if(decoded.id){
     User.findOne({
@@ -109,8 +109,8 @@ router.put('/course', (req, res) => {
   }
 });
 
-router.delete('/course', (req, res) => {
-  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
+router.delete('/course/:usertoken/:course_id', (req, res) => {
+  var decoded = jwt.verify(req.params.usertoken, process.env.SECRET_KEY);
 
   if(decoded.id){
     User.findOne({
@@ -123,7 +123,7 @@ router.delete('/course', (req, res) => {
       if (users) {
         await Course.destroy({
           where: {
-            id: req.body.course_id
+            id: req.params.course_id
           }
         })
         .then(courses => {
