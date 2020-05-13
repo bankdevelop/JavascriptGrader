@@ -45,8 +45,19 @@
     border: black 1px solid;
 }
 
+.admin-left-menu{
+    width: 20%;
+}
+
+@media (max-width:800px){
+    .admin-left-menu{
+        width: 100%;
+    }
+}
+
 .left-menu-item {
     padding: 10px;
+    width: 100%;
 }
 
 .left-menu-item a{
@@ -67,6 +78,12 @@
 .course-list-item{
     padding: 10px;
     background-color: rgb(250, 248, 242);
+}
+
+.course-list-item {
+    td {
+        padding: 10px;
+    }
 }
 
 .course-list-item:hover{

@@ -74,10 +74,10 @@ class Exercise extends Component {
             {!localStorage.usertoken ? <Redirect to="/login" /> : ""}
             <div className="category-view">
                 <table style={{width:"100%", textAlign:"center"}}>
-                <colgroup>
-                            <col span="1" style={{width:"20%"}} />
-                            <col span="1" style={{width:"80%"}} />
-                            </colgroup>
+                    <colgroup>
+                        <col span="1" style={{width:"20%"}} />
+                        <col span="1" style={{width:"80%"}} />
+                    </colgroup>
                     <tbody>
                         <tr style={{verticalAlign:"top"}}>
                             <td>

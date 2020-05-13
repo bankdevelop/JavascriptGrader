@@ -40,11 +40,22 @@ class CourseItem extends Component {
     render() {
         const {name, desc, status} = this.props;
         return (
-            <div className="course-list-item">
-                <span>name : {name} |</span>
-                <span>description : {desc} |</span>
-                <span>{status?"Open":"Closed"}</span>
-            </div>
+            <tr className="course-list-item">
+                <td>
+                    <span><strong>Name</strong> : {name}</span>
+                </td>
+                <td>
+                    <span><strong>Description</strong> : {desc}</span>
+                </td>
+                <td>
+                    {status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
+                            :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>}
+                </td>
+                <td style={{textAlign:"right",paddingRight:"20px"}}>
+                    <input type="submit" value="Edit" />
+                    <input type="submit" value="Delete" />
+                </td>
+            </tr>
         );
     }
 }
@@ -52,7 +63,7 @@ class CourseItem extends Component {
 class AdminAddCourseForm extends Component {
     render() {
         return (
-            <form className="form">
+            <form onSubmit={this.props.handleSubmit} className="form">
                 <div className="form-group">
                     <label>Course name: </label>
                     <input onChange={this.props.handleChange} type="text" id="name" name="name" placeholder="Place course name..." required/>
@@ -116,7 +127,8 @@ class AdminCourse extends Component {
         }
     }
 
-    handleAddCourse(){
+    handleAddCourse(event){
+        event.preventDefault();
         if(this.state.isEdit){
             if(this.state.name !== "" && this.state.desc !== ""){
                 ;//axios post create course
@@ -135,7 +147,7 @@ class AdminCourse extends Component {
             <div className="admin-course">
                 <div className={this.state.isEdit?"admin-add-course":"admin-add-course hidden"}>
                     <span className="create-new-course">Create new course</span>
-                    <AdminAddCourseForm handleChange={this.handleChange} />
+                    <AdminAddCourseForm handleSubmit={this.handleAddCourse} handleChange={this.handleChange} />
                 </div>
                 <div className="admin-button">
                     {(!this.state.isEdit)? 
@@ -143,14 +155,24 @@ class AdminCourse extends Component {
                     :<input className="close-new-course-button" onClick={this.handleEdit} type="submit" value="Close tab" />}
                 </div>
                 <div className="admin-list-course">
-                    {this.state.data.map((values) => {
-                        return (
-                            <CourseItem key={values.id+"apre_56e"} 
-                                        name={values.name}
-                                        desc={values.desc}
-                                        status={values.status} />
-                        );
-                    })}
+                    <table style={{width:"100%",borderCollapse:"collapse"}}>
+                        <colgroup>
+                            <col span="1" style={{width:"25%"}} />
+                            <col span="1" style={{width:"35%"}} />
+                            <col span="1" style={{width:"15%"}} />
+                            <col span="1" style={{width:"25%"}} />
+                        </colgroup>
+                        <tbody style={{border:"1px rgb(226, 226, 226) solid"}}>
+                            {this.state.data.map((values) => {
+                                return (
+                                    <CourseItem key={values.id+"apre_56e"} 
+                                                name={values.name}
+                                                desc={values.desc}
+                                                status={values.status} />
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         );
