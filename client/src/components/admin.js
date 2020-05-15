@@ -112,7 +112,8 @@ class CourseItem extends Component {
                                 :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>)}
                 </td>
                 <td style={{textAlign:"right",paddingRight:"20px"}}>
-                    {this.state.editCourse?<input onClick={this.handleUpdate} type="submit" value="Save" />:<input onClick={this.handleEditCourse} type="submit" value="Edit" />}
+                    {this.state.editCourse?(<span><input onClick={this.handleUpdate} type="submit" value="Save" />
+                    <input onClick={this.handleEditCourse} type="submit" value="Cancel" /></span>):<input onClick={this.handleEditCourse} type="submit" value="Edit" />}
                     <input onClick={this.handleDeleteCourse} type="submit" value="Delete" />
                 </td>
             </tr>
