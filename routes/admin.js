@@ -77,7 +77,7 @@ router.post('/course', (req, res) => {
   }
 });
 
-router.put('/course', (req, res) => {
+router.put('/course/:usertoken/:course_id/:name/:desc/:status', (req, res) => {
   var decoded = jwt.verify(req.params.usertoken, process.env.SECRET_KEY);
 
   if(decoded.id){
@@ -90,11 +90,11 @@ router.put('/course', (req, res) => {
     .then( async (users) => {
       if (users) {
         await Course.update({
-          name: req.body.name,
-          desc: req.body.desc,
-          status: req.body.status
+          name: req.params.name,
+          desc: req.params.desc,
+          status: req.params.status
         }, {
-          where: { id: req.body.course_id },
+          where: { id: req.params.course_id },
           returning: true,
           plain: true
         })

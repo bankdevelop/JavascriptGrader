@@ -74,8 +74,14 @@ class CourseItem extends Component {
         }
     }
 
-    handleUpdate(){
-        this.handleEditCourse();
+    async handleUpdate(){
+        if(localStorage.usertoken){
+            await  axios.put('/admin/course/'+localStorage.usertoken+'/'+this.props.id+'/'+this.state.name+'/'+this.state.desc+'/'+this.state.status)
+                            .then(() => {
+                                this.props.getAllCourse();
+                            }); 
+            this.handleEditCourse();
+        }
     }
 
     async handleDeleteCourse(){
@@ -92,18 +98,17 @@ class CourseItem extends Component {
     }
 
     render() {
-        const {name, desc, status} = this.props;
         return (
             <tr className="course-list-item">
                 <td>
-                    <span><strong>Name</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="name" value={name}/>:name}</span>
+                    <span><strong>Name</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="name" value={this.state.name}/>:this.state.name}</span>
                 </td>
                 <td>
-                    <span><strong>Description</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="desc" value={desc}/>:desc}</span>
+                    <span><strong>Description</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="desc" value={this.state.desc}/>:this.state.desc}</span>
                 </td>
                 <td>
                     {this.state.editCourse?<input onChange={this.handleChange} type="checkbox" name="status" checked={this.state.status}/>:
-                        (status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
+                        (this.state.status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
                                 :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>)}
                 </td>
                 <td style={{textAlign:"right",paddingRight:"20px"}}>
