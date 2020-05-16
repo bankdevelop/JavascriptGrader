@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import axios from 'axios';
-import './css/admin.scss'
+import './css/admin.scss';
 
 class AdminPage extends Component {
     render() {
@@ -90,7 +90,7 @@ class CourseItem extends Component {
         if(sureDelete){
             if(localStorage.usertoken){
                 await axios.delete('/admin/course/'+localStorage.usertoken+"/"+this.props.id)
-                            .then(response => {
+                            .then(() => {
                                 this.props.getAllCourse();
                             });
             }

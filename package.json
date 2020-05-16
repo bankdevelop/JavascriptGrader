@@ -24,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bankdevelop/Autograder_Javascript.git"
+    "url": "git+https://github.com/bankdevelop/JavascriptGrader.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bankdevelop/Autograder_Javascript/issues"
+    "url": "https://github.com/bankdevelop/JavascriptGrader/issues"
   },
-  "homepage": "https://github.com/bankdevelop/Autograder_Javascript#readme"
+  "homepage": "https://github.com/bankdevelop/JavascriptGrader#readme"
 }
