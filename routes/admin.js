@@ -30,7 +30,7 @@ router.post('/viewAllCourse', (req, res) => {
         });
         res.json(data);
       } else {
-        res.json({error:'Not have any course'});
+        res.json({error:'You not have permission'});
       }
     })
     .catch(err => {
@@ -132,6 +132,39 @@ router.delete('/course/:usertoken/:course_id', (req, res) => {
           Category.destroy({where: {course_id: req.params.course_id}});
           Exercise.destroy({where: {course_id: req.params.course_id}});
         });
+      } else {
+        res.json({error:'You not have permission'});
+      }
+    })
+    .catch(err => {
+      res.send({error:'error: '+err});
+    });
+  }
+});
+
+router.post('/viewAllCategory/:id', (req, res) => {
+  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
+
+  if(decoded.id){
+    User.findOne({
+      where: {
+        id: decoded.id,
+        rank: "1"
+      }
+    })
+    .then( async (users) => {
+      let data = [];
+      if (users) {
+        await Category.findAll({
+          where: {
+            course_id: req.params.id
+          }
+        })
+        .then(category => {
+          console.log(category);
+          category.map((categoryData) => data.push(categoryData.dataValues));
+        });
+        res.json(data);
       } else {
         res.json({error:'You not have permission'});
       }

@@ -50,7 +50,8 @@
 }
 
 .admin-list-course{
-    padding: 10px;
+    margin: 10px;
+    border: 1px rgb(226, 226, 226) solid;
 }
 
 @media (max-width:800px){
@@ -86,6 +87,13 @@
 
 .course-list-item{
     padding: 10px;
+    background-color: rgb(250, 248, 242);
+}
+
+.course-list-category{
+    padding: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
     background-color: rgb(250, 248, 242);
 }
 

@@ -36,115 +36,6 @@ class AdminLeftMenu extends Component {
     }
 }
 
-class CourseItem extends Component {
-    constructor(props){
-        super(props);
-
-        this.state = {
-            editCourse: false,
-            name: this.props.name,
-            desc: this.props.desc,
-            status: this.props.status
-        }
-
-        this.handleEditCourse = this.handleEditCourse.bind(this);
-        this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleUpdate = this.handleUpdate.bind(this);
-    }
-
-    handleEditCourse(){
-        this.setState({
-            editCourse:this.state.editCourse?false:true
-        });
-    }
-
-    handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-
-        if(name!=="status"){
-            this.setState({
-                [name]:value
-            });
-        }else{
-            this.setState({
-                status:event.target.checked
-            });
-        }
-    }
-
-    async handleUpdate(){
-        if(localStorage.usertoken){
-            await  axios.put('/admin/course/'+localStorage.usertoken+'/'+this.props.id+'/'+this.state.name+'/'+this.state.desc+'/'+this.state.status)
-                            .then(() => {
-                                this.props.getAllCourse();
-                            }); 
-            this.handleEditCourse();
-        }
-    }
-
-    async handleDeleteCourse(){
-        let msg = 'Are you sure? Delete "'+this.props.name+'" course\nCategory and Exercise under this course will be delete too!';
-        let sureDelete = window.confirm(msg);
-        if(sureDelete){
-            if(localStorage.usertoken){
-                await axios.delete('/admin/course/'+localStorage.usertoken+"/"+this.props.id)
-                            .then(() => {
-                                this.props.getAllCourse();
-                            });
-            }
-        }
-    }
-
-    render() {
-        return (
-            <tr className="course-list-item">
-                <td>
-                    <span><strong>Name</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="name" value={this.state.name}/>:this.state.name}</span>
-                </td>
-                <td>
-                    <span><strong>Description</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="desc" value={this.state.desc}/>:this.state.desc}</span>
-                </td>
-                <td>
-                    {this.state.editCourse?<input onChange={this.handleChange} type="checkbox" name="status" checked={this.state.status}/>:
-                        (this.state.status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
-                                :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>)}
-                </td>
-                <td style={{textAlign:"right",paddingRight:"20px"}}>
-                    {this.state.editCourse?(<span><input onClick={this.handleUpdate} type="submit" value="Save" />
-                    <input onClick={this.handleEditCourse} type="submit" value="Cancel" /></span>):<input onClick={this.handleEditCourse} type="submit" value="Edit" />}
-                    <input onClick={this.handleDeleteCourse} type="submit" value="Delete" />
-                </td>
-            </tr>
-        );
-    }
-}
-
-class AdminAddCourseForm extends Component {
-    render() {
-        return (
-            <form onSubmit={this.props.handleSubmit} className="form">
-                <div className="form-group">
-                    <label>Course name: </label>
-                    <input onChange={this.props.handleChange} type="text" id="name" name="name" placeholder="Place course name..." required/>
-                </div>
-                <div className="form-group">
-                    <label>Description: </label>
-                    <input type="text" placeholder="Place description..." onChange={this.props.handleChange} className="large-box" id="desc" name="desc" required/>
-                </div>
-                <div className="form-group">
-                    <label>Status: </label>
-                    <input onChange={this.props.handleChange} type="checkbox" className="large-box" id="status" name="status"/>
-                </div>
-                <div className="form-group">
-                    <input type="submit" value="Create new Course" />
-                </div>
-            </form>
-        );
-    }
-}
-
 class AdminCourse extends Component {
     constructor() {
         super();
@@ -240,27 +131,226 @@ class AdminCourse extends Component {
                     :<input className="close-new-course-button" onClick={this.handleEdit} type="submit" value="Close tab" />}
                 </div>
                 <div className="admin-list-course">
-                    <table style={{width:"100%",borderCollapse:"collapse"}}>
-                        <colgroup>
-                            <col span="1" style={{width:"25%"}} />
-                            <col span="1" style={{width:"35%"}} />
-                            <col span="1" style={{width:"15%"}} />
-                            <col span="1" style={{width:"25%"}} />
-                        </colgroup>
-                        <tbody style={{border:"1px rgb(226, 226, 226) solid"}}>
-                            {this.state.data.map((values) => {
-                                return (
-                                    <CourseItem key={values.id+"apre_56e"} //random key : apre_56e has nothing mean
-                                                name={values.name}
-                                                desc={values.desc}
-                                                status={values.status}
-                                                id={values.id}
-                                                getAllCourse={this.getAllCourse} />
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                    {this.state.data.map((values) => {
+                        return (
+                            <CourseItem key={values.id+"apre_56e"} //random key : apre_56e has nothing mean
+                                        name={values.name}
+                                        desc={values.desc}
+                                        status={values.status}
+                                        id={values.id}
+                                        getAllCourse={this.getAllCourse} />
+                        );
+                    })}
                 </div>
+            </div>
+        );
+    }
+}
+
+class AdminAddCourseForm extends Component {
+    render() {
+        return (
+            <form onSubmit={this.props.handleSubmit} className="form">
+                <div className="form-group">
+                    <label>Course name: </label>
+                    <input onChange={this.props.handleChange} type="text" id="name" name="name" placeholder="Place course name..." required/>
+                </div>
+                <div className="form-group">
+                    <label>Description: </label>
+                    <input type="text" placeholder="Place description..." onChange={this.props.handleChange} className="large-box" id="desc" name="desc" required/>
+                </div>
+                <div className="form-group">
+                    <label>Status: </label>
+                    <input onChange={this.props.handleChange} type="checkbox" className="large-box" id="status" name="status"/>
+                </div>
+                <div className="form-group">
+                    <input type="submit" value="Create new Course" />
+                </div>
+            </form>
+        );
+    }
+}
+
+class CourseItem extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            name: this.props.name,
+            desc: this.props.desc,
+            status: this.props.status,
+            editCourse: false,
+            showCategory: false
+        }
+
+        this.handleEditCourse = this.handleEditCourse.bind(this);
+        this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
+        this.handleSwap = this.handleSwap.bind(this);
+        this.handleShowCategory = this.handleShowCategory.bind(this);
+    }
+
+    handleEditCourse(){
+        this.handleSwap("editCourse");
+    }
+
+    handleShowCategory(){
+        this.handleSwap("showCategory");
+    }
+
+    handleSwap(name){
+        this.setState({
+            [name]:this.state[name]?false:true
+        });
+    }
+
+    handleChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+
+        if(name!=="status"){
+            this.setState({
+                [name]:value
+            });
+        }else{
+            this.setState({
+                status:event.target.checked
+            });
+        }
+    }
+
+    async handleUpdate(){
+        if(localStorage.usertoken){
+            await  axios.put('/admin/course/'+localStorage.usertoken+'/'+this.props.id+'/'+this.state.name+'/'+this.state.desc+'/'+this.state.status)
+                            .then(() => {
+                                this.props.getAllCourse();
+                            }); 
+            this.handleEditCourse();
+        }
+    }
+
+    async handleDeleteCourse(){
+        let msg = 'Are you sure? Delete "'+this.props.name+'" course\nCategory and Exercise under this course will be delete too!';
+        let sureDelete = window.confirm(msg);
+        if(sureDelete){
+            if(localStorage.usertoken){
+                await axios.delete('/admin/course/'+localStorage.usertoken+"/"+this.props.id)
+                            .then(() => {
+                                this.props.getAllCourse();
+                            })
+                            .catch((err)=> {
+                                console.log('err:'+err);
+                            });
+            }
+        }
+    }
+
+    render() {
+        return (
+            <table style={{width:"100%",borderCollapse:"collapse"}}>
+                <colgroup>
+                    <col span="1" style={{width:"25%"}} />
+                    <col span="1" style={{width:"35%"}} />
+                    <col span="1" style={{width:"15%"}} />
+                    <col span="1" style={{width:"25%"}} />
+                </colgroup>
+                <tbody>
+                    <tr className="course-list-item">
+                        <td>
+                            <span><strong>Name</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="name" value={this.state.name}/>:this.state.name}</span>
+                        </td>
+                        <td>
+                            <span><strong>Description</strong> : {this.state.editCourse?<input className="edit-value" onChange={this.handleChange} type="text" name="desc" value={this.state.desc}/>:this.state.desc}</span>
+                        </td>
+                        <td>
+                            {this.state.editCourse?<input onChange={this.handleChange} type="checkbox" name="status" checked={this.state.status}/>:
+                                (this.state.status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
+                                        :<span  style={{color:"red",fontWeight:"bold"}}>Closed</span>)}
+                        </td>
+                        <td style={{textAlign:"right",paddingRight:"20px"}}>
+                            {this.state.editCourse?(<span><input onClick={this.handleUpdate} type="submit" value="Save" />
+                            <input onClick={this.handleEditCourse} type="submit" value="Cancel" /></span>):<input onClick={this.handleEditCourse} type="submit" value="Edit" />}
+                            <input onClick={this.handleDeleteCourse} type="submit" value="Delete" />
+                            <input onClick={this.handleShowCategory} type="submit" value="Show category" />
+                        </td>
+                    </tr>
+                    {this.state.showCategory?
+                        <tr className="course-list-category">
+                            <td colSpan="5" style={{paddingLeft:30,backgroundColor:"white"}}>
+                                <CategoryList id={this.props.id} />
+                            </td>
+                        </tr>
+                        :""
+                    }
+                </tbody>
+            </table>
+        );
+    }
+}
+
+class CategoryList extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            data:[]
+        }
+    }
+
+    async componentDidMount(){
+        if(localStorage.usertoken){
+            await axios.post('/admin/viewAllCategory/'+this.props.id, {usertoken:localStorage.usertoken})
+                        .then(response => {
+                            if(!array_equal(this.state.data,response.data)){
+                                this.setState({
+                                    data:response.data
+                                });
+                            }
+                        });
+        }
+    }
+
+    render(){
+        return (
+            <div className="category-list" key={"category-list-item-"+this.props.id}>
+                {this.state.data.length!==0?
+                    (this.state.data.map((data) => { return <CategoryItem items={data} /> }))
+                :"Not have any category"}
+            </div>
+        );
+    }
+}
+
+class CategoryItem extends Component {
+    render(){
+        return (
+            <div className="category-item">
+                <table style={{width:"100%"}}>
+                    <colgroup>
+                        <col span="1" style={{width:"25%"}} />
+                        <col span="1" style={{width:"25%"}} />
+                        <col span="1" style={{width:"20%"}} />
+                        <col span="1" style={{width:"30%"}} />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                > <strong>{this.props.items.title}</strong>
+                            </td>
+                            <td>
+                                {this.props.items.desc}
+                            </td>
+                            <td style={{textAlign:"center"}}>
+                                {this.props.status?<span style={{color:"green",fontWeight:"bold"}}>Open</span>
+                                        :<span style={{color:"red",fontWeight:"bold"}}>Closed</span>}
+                            </td>
+                            <td style={{textAlign:"center"}}>
+                                <input type="submit" value="delete" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }
