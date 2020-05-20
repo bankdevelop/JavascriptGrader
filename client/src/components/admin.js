@@ -315,7 +315,7 @@ class CategoryList extends Component {
         return (
             <div className="category-list" key={"category-list-item-"+this.props.id}>
                 {this.state.data.length!==0?
-                    (this.state.data.map((data) => { return <CategoryItem items={data} show={this.state} /> }))
+                    (this.state.data.map((data) => { return <CategoryItem items={data} /> }))
                 :"Not have any category"}
             </div>
         );
