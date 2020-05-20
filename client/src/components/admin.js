@@ -272,7 +272,7 @@ class CourseItem extends Component {
                             {this.state.editCourse?(<span><input onClick={this.handleUpdate} type="submit" value="Save" />
                             <input onClick={this.handleEditCourse} type="submit" value="Cancel" /></span>):<input onClick={this.handleEditCourse} type="submit" value="Edit" />}
                             <input onClick={this.handleDeleteCourse} type="submit" value="Delete" />
-                            <input onClick={this.handleShowCategory} type="submit" value="Show category" />
+                            <input onClick={this.handleShowCategory} type="submit" value={!this.state.showCategory?"Show category":"Close category"} />
                         </td>
                     </tr>
                     {this.state.showCategory?
@@ -315,7 +315,7 @@ class CategoryList extends Component {
         return (
             <div className="category-list" key={"category-list-item-"+this.props.id}>
                 {this.state.data.length!==0?
-                    (this.state.data.map((data) => { return <CategoryItem items={data} /> }))
+                    (this.state.data.map((data) => { return <CategoryItem items={data} show={this.state} /> }))
                 :"Not have any category"}
             </div>
         );
@@ -325,7 +325,7 @@ class CategoryList extends Component {
 class CategoryItem extends Component {
     render(){
         return (
-            <div className="category-item">
+            <div className="category-item" >
                 <table style={{width:"100%"}}>
                     <colgroup>
                         <col span="1" style={{width:"25%"}} />
@@ -346,7 +346,9 @@ class CategoryItem extends Component {
                                         :<span style={{color:"red",fontWeight:"bold"}}>Closed</span>}
                             </td>
                             <td style={{textAlign:"center"}}>
-                                <input type="submit" value="delete" />
+                                <input type="submit" value="Edit" />
+                                <input type="submit" value="Delete" />
+                                <input type="submit" value="View category" />
                             </td>
                         </tr>
                     </tbody>
