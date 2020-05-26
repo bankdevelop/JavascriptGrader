@@ -35,6 +35,17 @@
     background-color: rgb(255, 111, 111);
 }
 
+.create-new-category-button{
+    @extend .create-new-course-button;
+    padding: 5px;
+    background-color: darkgreen;
+}
+
+.create-new-category-button:hover{
+    background-color: darkseagreen;
+    color: black;
+}
+
 .admin-course {
     width: 80%;
 }
@@ -52,6 +63,10 @@
 .admin-list-course{
     margin: 10px;
     border: 1px rgb(226, 226, 226) solid;
+}
+
+.admin-exercise {
+    margin: 20px;
 }
 
 @media (max-width:800px){

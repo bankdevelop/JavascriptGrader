@@ -142,6 +142,8 @@ router.delete('/course/:usertoken/:course_id', (req, res) => {
   }
 });
 
+
+//Category Management
 router.post('/viewAllCategory/:id', (req, res) => {
   var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
 
@@ -161,8 +163,42 @@ router.post('/viewAllCategory/:id', (req, res) => {
           }
         })
         .then(category => {
-          console.log(category);
           category.map((categoryData) => data.push(categoryData.dataValues));
+        });
+        res.json(data);
+      } else {
+        res.json({error:'You not have permission'});
+      }
+    })
+    .catch(err => {
+      res.send({error:'error: '+err});
+    });
+  }
+});
+
+router.post('/getExerciseFromCategory/:id', (req, res) => {
+  var decoded = jwt.verify(req.body.usertoken, process.env.SECRET_KEY);
+
+  if(decoded.id){
+    User.findOne({
+      where: {
+        id: decoded.id,
+        rank: "1"
+      }
+    })
+    .then( async (users) => {
+      let data = [];
+      if (users) {
+        await Exercise.findAll({
+          where: {
+            category_id: req.params.id
+          }
+        })
+        .then(exercises => {
+          exercises.map((exerciseData) => {
+            exerciseData.dataValues.test_case = null;
+            data.push(exerciseData.dataValues);
+          });
         });
         res.json(data);
       } else {

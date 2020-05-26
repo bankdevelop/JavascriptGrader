@@ -41,7 +41,7 @@ module.exports = function code_checker_output(raw_code, test_case, function_name
     try{
         var testResult = "";
         var code = clean_code(raw_code);
-
+        
         //Testing case
         for( test of test_case ){
             //Running code

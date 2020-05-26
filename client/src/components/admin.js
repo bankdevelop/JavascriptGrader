@@ -11,6 +11,10 @@ class AdminPage extends Component {
                     <AdminLeftMenu/>
                     <Switch>
                         <Route exact path="/admin" component={AdminCourse} />
+                        <Route exact path="/admin/category/:id" component={AdminEditExercise} />
+                        <Route>
+                            <h1 style={{paddingLeft:30}}>ERROR 404</h1>
+                        </Route>
                     </Switch>
                 </div>
             </BrowserRouter>
@@ -314,6 +318,7 @@ class CategoryList extends Component {
     render(){
         return (
             <div className="category-list" key={"category-list-item-"+this.props.id}>
+                <input className="create-new-category-button" type="submit" value="Add new" /><br/>
                 {this.state.data.length!==0?
                     (this.state.data.map((data) => { return <CategoryItem items={data} /> }))
                 :"Not have any category"}
@@ -323,6 +328,27 @@ class CategoryList extends Component {
 }
 
 class CategoryItem extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            isEdit: false
+        }
+
+        this.handleSwap = this.handleSwap.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+    }
+
+    handleEdit(){
+        this.handleSwap("isEdit");
+    }
+
+    handleSwap(name){
+        this.setState({
+            [name]:this.state[name]?false:true
+        });
+    }
+
     render(){
         return (
             <div className="category-item" >
@@ -346,13 +372,66 @@ class CategoryItem extends Component {
                                         :<span style={{color:"red",fontWeight:"bold"}}>Closed</span>}
                             </td>
                             <td style={{textAlign:"center"}}>
-                                <input type="submit" value="Edit" />
+                                <input onClick={this.handleEdit} type="submit" value="Edit" />
                                 <input type="submit" value="Delete" />
-                                <input type="submit" value="View category" />
+                                <a href={"/admin/category/"+this.props.items.id}>
+                                    <input type="submit" value="View Exercise" />
+                                </a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        );
+    }
+}
+
+class AdminEditExercise extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            data:[]
+        }
+
+        this.getExercise = this.getExercise.bind(this);
+    }
+
+    componentDidMount(){
+        this.getExercise();
+    }
+
+    async getExercise(){
+        if(localStorage.usertoken){
+            await axios.post('/admin/getExerciseFromCategory/'+this.props.match.params.id, {usertoken:localStorage.usertoken})
+                        .then(response => {
+                            console.log(response.data);
+                            if(!array_equal(this.state.data,response.data)){
+                                this.setState({
+                                    data:response.data
+                                });
+                                console.log(this.state.data);
+                            }
+                        });
+        }
+    }
+
+    render(){
+        return(
+            <div className="admin-exercise">
+                {this.state.data.map(data => (
+                    <AdminExerciseItem key={"f4ew4_eofjwe_dwfdc_"+data.id} data={data} />
+                ))}
+            </div>
+        );
+    }
+}
+
+class AdminExerciseItem extends Component {
+    render() {
+        return(
+            <div>
+                {this.props.data.title}
             </div>
         );
     }
