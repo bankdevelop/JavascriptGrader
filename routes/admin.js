@@ -196,7 +196,6 @@ router.post('/getExerciseFromCategory/:id', (req, res) => {
         })
         .then(exercises => {
           exercises.map((exerciseData) => {
-            exerciseData.dataValues.test_case = null;
             data.push(exerciseData.dataValues);
           });
         });

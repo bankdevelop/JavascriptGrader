@@ -67,10 +67,32 @@
 
 .admin-exercise {
     margin: 20px;
+    margin-top: 0px;
+    width: 75%;
+}
+
+.admin-exercise-item {
+    width: 100%;
+}
+
+.admin-exercise-item-head {
+    padding: 10px;
+    background-color: blanchedalmond;
+    border: 1px solid rgb(253, 216, 160);
+}
+
+.admin-exercise-item-body {
+    padding: 10px;
+    background-color: rgb(255, 252, 248);
+    border: 1px solid rgb(253, 216, 160);
 }
 
 @media (max-width:800px){
     .admin-left-menu{
+        width: 100%;
+    }
+
+    .admin-exercise{
         width: 100%;
     }
 }

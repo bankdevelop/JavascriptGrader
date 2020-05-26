@@ -405,7 +405,6 @@ class AdminEditExercise extends Component {
         if(localStorage.usertoken){
             await axios.post('/admin/getExerciseFromCategory/'+this.props.match.params.id, {usertoken:localStorage.usertoken})
                         .then(response => {
-                            console.log(response.data);
                             if(!array_equal(this.state.data,response.data)){
                                 this.setState({
                                     data:response.data
@@ -428,10 +427,23 @@ class AdminEditExercise extends Component {
 }
 
 class AdminExerciseItem extends Component {
+    constructor(props){
+        super(props);
+
+        this.state={
+            isOpen:false
+        }
+    }
+
     render() {
         return(
-            <div>
-                {this.props.data.title}
+            <div className="admin-exercise-item">
+                <div className="admin-exercise-item-head">
+                    {this.props.data.title}
+                </div>
+                <div className="admin-exercise-item-body">
+                    {this.props.data.desc}
+                </div>
             </div>
         );
     }
