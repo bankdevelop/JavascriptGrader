@@ -52,21 +52,18 @@ module.exports = function code_checker_output(raw_code, test_case, function_name
             for(let index=0; index<test.output.length; index++){
                 if( logMessages[index]!==test.output[index] ) {
                     if( logMessages[index].trim().toUpperCase()===test.output[index].trim().toUpperCase() ){
-                        //Suspect case is mean output correct but not correct print
                         SuspectCase = true;
                     }else{
-                        //Failed case
                         FailedCase = true;
                         break;
                     }
                 }
             }
-            //Passed case
+
             if(FailedCase) testResult+="-";
             else if(SuspectCase) testResult+="S";
             else testResult+="P";
 
-            SuspectCase = false;
             logMessages = [];
         }
         return ["Run success",testResult];

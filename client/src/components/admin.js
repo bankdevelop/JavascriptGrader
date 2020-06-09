@@ -410,6 +410,8 @@ class AdminEditExercise extends Component {
                                     data:response.data
                                 });
                                 console.log(this.state.data);
+                                
+                                //console.log(convert_string_to_array_json(this.state.data[0].test_case));
                             }
                         });
         }
@@ -454,3 +456,11 @@ export default AdminPage;
 function array_equal(a, b){
     return JSON.stringify(a) === JSON.stringify(b);
 }
+
+/*
+function convert_string_to_array_json(str){
+    return str.replace(new RegExp("[", "gi"), "")
+              .replace(new RegExp("]", "gi"), "")
+              .replace('},{', '}|{')
+              .split('|');
+}*/
