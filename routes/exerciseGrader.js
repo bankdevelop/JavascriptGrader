@@ -43,7 +43,7 @@ router.post('/viewExercise/:id', (req, res) => {
                     .then(exercises => {
                         var data = []
                         for( exercise of exercises ){
-                            exercise.dataValues.test_case = null;
+                            exercise.dataValues.test_case = exercise.dataValues.test_case.length;
                             data.push(exercise.dataValues);
                         }
                         res.json(data);

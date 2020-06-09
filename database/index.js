@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('autograder', 'root', '123456', {
+const sequelize = new Sequelize('grader', 'root', '12345678', {
     host: 'localhost',
     dialect: 'mysql'
 });
