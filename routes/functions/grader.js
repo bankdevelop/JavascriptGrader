@@ -41,13 +41,16 @@ module.exports = function code_checker_output(raw_code, test_case, function_name
     try{
         var testResult = "";
         var code = clean_code(raw_code);
-        
+        var catchErr = null;
+
         //Testing case
         for( test of test_case ){
             //Running code
-            new Function(code+";"+function_name+"("+test.input+");")();
+            new Function('try {'+code+';} catch(e) {catchErr=e;}')();
             let SuspectCase = false; //Suspect case is mean output correct but not correct print
             let FailedCase = false;
+
+            if (catchErr) return [err, "-".repeat(test_case.output.length)];
 
             for(let index=0; index<test.output.length; index++){
                 if( logMessages[index]!==test.output[index] ) {
@@ -66,8 +69,8 @@ module.exports = function code_checker_output(raw_code, test_case, function_name
 
             logMessages = [];
         }
-        return ["Run success",testResult];
+        return ["Run success", testResult];
     }catch(err){
-        return [err,"-".repeat(test_case.output.length)];
+        return [err, "-".repeat(test_case.output.length)];
     }
 }
