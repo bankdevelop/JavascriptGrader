@@ -1,0 +1,14 @@
+version: '1.27.4'
+services:
+    grade-frontend:
+        build:
+            context: client/
+        port:
+            - "3000:3000"
+        container_name: grade-frontend
+    grade-backend:
+        build:
+            context: /
+        port:
+            - "5000:5000"
+        container_name: grade-backend
